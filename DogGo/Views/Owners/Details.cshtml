@@ -45,14 +45,42 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Phone)
-        </dd> <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Dogs)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Dogs)
-        </dd>
+        </dd> 
     </dl>
 </div>
+    <h4>Dogs</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <td>
+                <b>Name</b>
+            </td>
+            <td>
+                <b>Breed</b>
+            </td>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.Dogs)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Breed)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     <a asp-action="Index">Back to List</a>
