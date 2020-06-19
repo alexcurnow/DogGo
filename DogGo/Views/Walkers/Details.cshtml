@@ -1,42 +1,52 @@
-﻿@model DogGo.Models.Walker
+﻿@model DogGo.Models.ViewModels.WalkerDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Walker Profile</h1>
 
 <div>
-    <h4>Walker</h4>
+    <h4>@Model.Walker.Name</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+            Neighborhood
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
+            @Html.DisplayFor(model => model.Neighborhood.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            <img class="bg-info" src="@Model.Walker.ImageUrl" alt="avatar" />
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+       
+    </dl>
+</div>
+<aside>
+    <h4>Total Walk Time: @Model.TotalWalkTime() min
+    </h4>
+</aside>
+<div>
+    <h4>Walks</h4>
+    <hr />
+    <dl class="row">
+    @foreach (Walk walk in Model.Walks)
+    {
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NeighborhoodId)
+            @Html.DisplayNameFor(model => walk.Date)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NeighborhoodId)
-        </dd>
-        <dt class = "col-sm-2">
-            <img class="bg-info" src="@Model.ImageUrl" alt="avatar" />
+            @walk.Date.ToShortDateString()
+        </dd><dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => walk.Duration)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrl)
+            @walk.FormatDuration() min
         </dd>
+    }
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Walker.Id }) |
     <a asp-action="Index">Back to List</a>
 </div>
