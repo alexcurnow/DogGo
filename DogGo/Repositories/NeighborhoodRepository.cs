@@ -51,5 +51,47 @@ namespace DogWalker.Repositories
                 }
             }
         }
+
+        public Neighborhood GetNeighborhoodById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT Id, Name FROM Neighborhood
+                        WHERE Id = @id
+                    ";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    Neighborhood neighborhood = null;
+
+                    while (reader.Read())
+                    {
+                        if (neighborhood == null)
+                        {
+                            neighborhood = new Neighborhood
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Name = reader.GetString(reader.GetOrdinal("Name"))
+                            };
+
+                        }
+
+                       
+
+
+
+                    }
+                    reader.Close();
+                    return neighborhood;
+
+                }
+            }
+        }
     }
 }

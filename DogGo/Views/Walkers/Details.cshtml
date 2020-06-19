@@ -4,38 +4,28 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Walker Profile</h1>
 
 <div>
-    <h4>Walker</h4>
+    <h4>@Model.Walker.Name</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Walker.Id)
+            Neighborhood
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Walker.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Walker.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Walker.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Walker.NeighborhoodId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Walker.NeighborhoodId)
+            @Html.DisplayFor(model => model.Neighborhood.Name)
         </dd>
         <dt class = "col-sm-2">
             <img class="bg-info" src="@Model.Walker.ImageUrl" alt="avatar" />
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Walker.ImageUrl)
-        </dd>
+       
     </dl>
 </div>
+<aside>
+    <h4>Total Walk Time: @Model.TotalWalkTime() min
+    </h4>
+</aside>
 <div>
     <h4>Walks</h4>
     <hr />
@@ -46,12 +36,12 @@
             @Html.DisplayNameFor(model => walk.Date)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => walk.Date)
+            @walk.Date.ToShortDateString()
         </dd><dt class = "col-sm-2">
             @Html.DisplayNameFor(model => walk.Duration)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => walk.Duration)
+            @walk.FormatDuration() min
         </dd>
     }
     </dl>

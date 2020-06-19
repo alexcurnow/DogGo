@@ -14,5 +14,10 @@ namespace DogGo.Models
         public int DogId { get; set; }
         public Walker Walker { get; set; }
         public Dog Dog { get; set; }
+        public int FormatDuration()
+        {
+            return Duration / 60;
+        }
+
     }
 }
