@@ -30,20 +30,27 @@
     <h4>Walks</h4>
     <hr />
     <dl class="row">
-    @foreach (Walk walk in Model.Walks)
-    {
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => walk.Date)
-        </dt>
-        <dd class = "col-sm-10">
-            @walk.Date.ToShortDateString()
-        </dd><dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => walk.Duration)
-        </dt>
-        <dd class = "col-sm-10">
-            @walk.FormatDuration() min
-        </dd>
-    }
+        @foreach (Walk walk in Model.Walks)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => walk.Date)
+            </dt>
+            <dd class="col-sm-10">
+                @walk.Date.ToShortDateString()
+            </dd>
+            <dt class="col-sm-2">
+                Client
+            </dt>
+            <dd class="col-sm-10">
+                @walk.Owner.Name
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => walk.Duration)
+            </dt>
+            <dd class="col-sm-10">
+                @walk.FormatDuration() min
+            </dd>
+        }
     </dl>
 </div>
 <div>
