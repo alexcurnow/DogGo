@@ -67,8 +67,11 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Date, Duration, WalkerId, DogId
-                        FROM Walks
+                        SELECT w.Id as WalkId, w.Date as WalkDate, w.Duration as WalkDuration, w.WalkerId as WalkerId, w.DogId as DogId,
+                        o.Id as OwnerId, o.Email as OwnerEmail, o.Name as OwnerName, o.Address as OwnerAddress, o.NeighborhoodId as OwnerNeighborhoodId, o.Phone as OwnerPhone
+                        FROM Walks w
+                        LEFT JOIN DOG d on w.DogId = d.Id
+                        LEFT JOIN Owner o on d.OwnerId = o.Id
                         WHERE WalkerId = @walkerId
                     ";
 
@@ -77,18 +80,31 @@ namespace DogGo.Repositories
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     List<Walk> walks = new List<Walk>();
-
+                    
                     while (reader.Read())
                     {
+                        Owner owner = new Owner()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("OwnerId")),
+                            Email = reader.GetString(reader.GetOrdinal("OwnerEmail")),
+                            Name = reader.GetString(reader.GetOrdinal("OwnerName")),
+                            Address = reader.GetString(reader.GetOrdinal("OwnerAddress")),
+                            NeighborhoodId = reader.GetInt32(reader.GetOrdinal("OwnerNeighborhoodId")),
+                            Phone = reader.GetString(reader.GetOrdinal("OwnerPhone"))
+                        };
+
                         Walk walk = new Walk
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Date = reader.GetDateTime(reader.GetOrdinal("Date")),
-                            Duration = reader.GetInt32(reader.GetOrdinal("Duration")),
+                            Id = reader.GetInt32(reader.GetOrdinal("WalkId")),
+                            Date = reader.GetDateTime(reader.GetOrdinal("WalkDate")),
+                            Duration = reader.GetInt32(reader.GetOrdinal("WalkDuration")),
                             WalkerId = reader.GetInt32(reader.GetOrdinal("WalkerId")),
-                            DogId = reader.GetInt32(reader.GetOrdinal("DogId"))
+                            DogId = reader.GetInt32(reader.GetOrdinal("DogId")),
+                            Owner = owner
                         };
                         walks.Add(walk);
+
+
                     }
                         reader.Close();
                         return walks;
