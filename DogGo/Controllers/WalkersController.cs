@@ -65,63 +65,81 @@ namespace DogGo.Controllers
         // GET: WalkersController/Create
         public ActionResult Create()
         {
-            return View();
+            List<Neighborhood> neighborhoods = _neighborhoodRepo.GetAll();
+            WalkerFormViewModel vm = new WalkerFormViewModel()
+            {
+                Walker = new Walker(),
+                Neighborhoods = neighborhoods
+            };
+            return View(vm);
         }
 
         // POST: WalkersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Walker walker)
         {
+            
             try
             {
-                return RedirectToAction(nameof(Index));
+                _walkerRepo.AddWalker(walker);
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(walker);
             }
         }
 
         // GET: WalkersController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Walker walker = _walkerRepo.GetWalkerById(id);
+            List<Neighborhood> neighborhoods = _neighborhoodRepo.GetAll();
+            WalkerFormViewModel vm = new WalkerFormViewModel()
+            {
+                Walker = walker,
+                Neighborhoods = neighborhoods
+            };
+            return View(vm);
         }
 
         // POST: WalkersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Walker walker)
         {
             try
             {
+                _walkerRepo.UpdateWalker(walker);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(walker);
             }
         }
 
         // GET: WalkersController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Walker walker = _walkerRepo.GetWalkerById(id);
+            return View(walker);
         }
 
         // POST: WalkersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Walker walker)
         {
             try
             {
+                _walkerRepo.DeleteWalker(id);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(walker);
             }
         }
 
